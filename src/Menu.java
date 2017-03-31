@@ -26,14 +26,13 @@ public class Menu extends javax.swing.JFrame {
      */
     BufferedImage buffer = null;
     Graphics2D bufferGraphics, lienzoGraphics = null;
-    public Menu(int puntMax) {
+    public Menu() {
         initComponents();
-        puntuacionMax = puntMax;
         //bucle();
         
         try {
             Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream( getClass().getResource("/imagenes/intro.wav") ));
+            clip.open(AudioSystem.getAudioInputStream( getClass().getResource("/imagenes/main.wav") ));
             clip.loop(0);
         } catch (Exception e) {      
         }
@@ -126,8 +125,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_SPACE){
-                new VentanaEjecucion(puntuacionMax).setVisible(true);
-                this.setVisible(false);
+                new VentanaEjecucion().setVisible(true);
         }
     }//GEN-LAST:event_formKeyPressed
 
@@ -161,7 +159,7 @@ public class Menu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Menu(puntuacionMax).setVisible(true);
+                new Menu().setVisible(true);
             }
         });
     }

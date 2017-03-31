@@ -83,4 +83,12 @@ public class Helicoptero extends Ellipse2D.Double{
             return true;
         }
     }
+    
+    /*public boolean chequeaColision(Moneda m){
+        if(!this.intersects(m.moneda)) {
+            return false;
+        }else{
+            return true;
+        }
+    }*/
 }

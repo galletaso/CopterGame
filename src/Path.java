@@ -48,7 +48,7 @@ public class Path {
             int desplazamiento = aleatorio.nextInt(50);
             camino.setFrame(anchoPantalla, desplazamiento,camino.getWidth(),camino.getHeight());    
         }else{
-            camino.setFrame(camino.getX()-10, camino.getY(),camino.getWidth(),camino.getHeight());
+            camino.setFrame(camino.getX()-10, camino.getY(),camino.getWidth(),camino.getHeight());//el primer parámetro de setFrame controla la velocidad
         }   
     }
     

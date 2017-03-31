@@ -39,15 +39,12 @@ public class VentanaEjecucion extends javax.swing.JFrame {
     Obstaculo obstaculo2 = new Obstaculo(1300, ANCHOPANTALLA);
     Obstaculo obstaculo3 = new Obstaculo(1600, ANCHOPANTALLA);
     
+    Moneda moneda = new Moneda();
+    
     static int ANCHOPANTALLA = 1075;//variable entera para el ancho de la pantalla
     static int ALTOPANTALLA = 570;//variable entera para el alto de la pantalla
     
     Path[] camino = new Path[32];//array de objetos de la clase Path que supondrán el camino por el que se moverá el copter
-    
-    
-    Reinicia reinicia;
-    
-    
     
     
     BufferedImage buffer = null;
@@ -58,16 +55,10 @@ public class VentanaEjecucion extends javax.swing.JFrame {
     /**
      * Constructor de la clase VentanaEjecucion que es la ventana que se ejecuta.
      */
-    public VentanaEjecucion(int puntMax) {
-        try {
-            Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream( getClass().getResource("/imagenes/main.wav") ));
-            clip.loop(0);
-        } catch (Exception e) {      
-        }
+    public VentanaEjecucion() {
+        
         initComponents();
         inicializaBuffers();
-        puntuacionMax = puntMax;
         //bucle que genera el camino
         for(int i = 0; i<32;i++){
             camino[i] = new Path(i*35, ANCHOPANTALLA);
@@ -111,8 +102,10 @@ public class VentanaEjecucion extends javax.swing.JFrame {
         //siguientes dos lineas limpian la pantalla
         if(puntuacion <500){
             bufferGraphics.setColor(Color.GREEN);
-        }else{
+        }else if(puntuacion>500||puntuacion<600){
             bufferGraphics.setColor(new Color(255,0,255));
+        }else if (puntuacion>600){
+            bufferGraphics.setColor(new Color(255,165,0));
         }
         
         bufferGraphics.fillRect(0,0, ANCHOPANTALLA, ALTOPANTALLA);
@@ -121,9 +114,6 @@ public class VentanaEjecucion extends javax.swing.JFrame {
         for(int i = 0; i<32;i++){
             camino[i].mueve(bufferGraphics);
             if(helicoptero.chequeaColision(camino[i])){
-            /*temporizador.stop();
-            puntuacion=0;
-            this.setVisible(false);*/
             reiniciaJuego();
             }
         }
@@ -135,23 +125,21 @@ public class VentanaEjecucion extends javax.swing.JFrame {
         obstaculo2.mueve(bufferGraphics);
         obstaculo3.mueve(bufferGraphics);
         
+        //moneda.mueve(bufferGraphics);
+        
         //si gameOver se torna false, para el juego
-        if(gameOver){
-               /*temporizador.stop();
-               puntuacion=0;
-               this.setVisible(false);
-               */
+        if(gameOver){               
                reiniciaJuego();
             }
         
         //Recoge las colisiones con los obstaculos
-        if(helicoptero.chequeaColision(obstaculo) || helicoptero.chequeaColision(obstaculo2) || helicoptero.chequeaColision(obstaculo3)){
-            /*temporizador.stop();
-            puntuacion=0;
-            this.setVisible(false);
-            */
+        if(helicoptero.chequeaColision(obstaculo) || helicoptero.chequeaColision(obstaculo2) || helicoptero.chequeaColision(obstaculo3)){            
             reiniciaJuego();
         }
+        
+        /*if(helicoptero.chequeaColision(moneda)){
+            bufferGraphics.setColor(new Color.Random);
+        }*/
         
         //siguientes dos lineas dibujan la puntuacion
         bufferGraphics.setFont(new Font("Courier New", Font.BOLD, 20));
@@ -178,7 +166,6 @@ public class VentanaEjecucion extends javax.swing.JFrame {
         //puntuacionAUX  = puntuacionMax;
         temporizador.stop();
         this.setVisible(false);
-        Menu menu = new Menu(puntuacionMax);
         //puntuacionMax = reinicia.puntuacionMax();
     }
 
@@ -267,7 +254,7 @@ public class VentanaEjecucion extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaEjecucion(puntuacionMax).setVisible(true);
+                new VentanaEjecucion().setVisible(true);
             }
         });
     }
